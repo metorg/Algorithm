@@ -6,36 +6,35 @@
 #include<algorithm>
 #include<functional>
 #include<stack>
+#include<stdio.h>
+
 using namespace std;
 
-vector<int> solution(vector<int> heights) {
-	vector<int> answer;
-	int x, y;
-	if ((heights[0] * heights[4]) - (heights[1] * heights[3]) == 0) {
-		answer.push_back(0);
-		answer.push_back(0);
-		return answer;
-	}
-	else {
-		x = ((heights[2] * heights[4]) - (heights[1] * heights[5])) / ((heights[0] * heights[4]) - (heights[1] * heights[3]));
-		y = ((heights[0] * heights[5]) - (heights[2] * heights[3])) / ((heights[0] * heights[4]) - (heights[1] * heights[3]));
-		answer.push_back(x);
-		answer.push_back(y);
-	}
-	for (int i = 0;i < answer.size();i++) {
-		cout << answer[i]<<' ';
-	}
-	return answer;
-}
 int main() {
-	vector<int> d;
+	
+	int a;
 	int num;
-	for (int i = 0;i < 6;i++) {
+	int cnt = 0;
+	int sum = 0;
+	int tmp = 0;
+	int cnt2 = 0;
+	cin >> a;
+	for (int i = 0;i < a;i++) {
 		cin >> num;
-		d.push_back(num);
+		
+		cnt2 += num / 2;
+		
+		
+		sum += num;
 	}
-	
-	solution(d);
-	
-	
+	tmp = (sum / 3);
+	if (sum % 3 == 0) {
+		if (tmp <= cnt2) {
+			cout << "YES";
+		}
+		else
+			cout << "NO";
+	}
+	else
+		cout << "NO";
 }
