@@ -1,50 +1,39 @@
-#include<string>
-#include <vector>
-#include<queue>
-#include<iostream>
-#include<algorithm>
-#include<cstdio>
-#include<math.h>
-
+#include <iostream>
+#include <vector> 
 using namespace std;
-
-bool isPrimeNumber(int x) {//에라토스테네스의 체 중요!!!
-	int end = (int)sqrt(x);
-	for (int i = 2;i <= end;i++) {
-		if (x % i == 0)return false;
-	}
-	return true;
-
-}
-int main()
-{
-	int a;
-	vector<int> v;
-	cin >> a;
-	for (int i = 2;i <= a;i++) {
-		if (isPrimeNumber(i) == 1) {
-			v.push_back(i);
-		}
-	}
-	int cnt = 0;
-	int sum = 0;
-	for (int i = 0;i < v.size();i++) {
-		sum = 0;
-		if (v[i] == a) {
-			cnt++;
-			break;
-		}
-		else if (v[i] > a)break;
-
-		sum += v[i];
-		for (int j = i + 1;j < v.size();j++) {
-			sum += v[j];
-			if (sum > a)break;
-			else if (sum == a) {
+const int MAX = 4000000;
+bool prime[MAX + 1] = { true, true };
+vector<int> primes;
+int n;
+int cnt = 0;
+void eratos() {
+	for (int i = 2; i <= n; i++)
+	{
+		if (!prime[i])
+		{
+			if (i == n && i != 2) {
 				cnt++;
-				break;
+			}
+			primes.push_back(i);
+			for (int j = i * 2; j <= n; j += i) {//이부분이 핵심
+				prime[j] = true;
 			}
 		}
 	}
-	cout << cnt;
 }
+int main() {
+	cin >> n;
+
+	eratos();
+
+	int res = 0;
+	int left = 0, right = 0;
+	int subSum = 0;
+	while (right < primes.size()) {
+		if (subSum >= n) subSum -= primes[left++];
+		else if (right > n) break; else subSum += primes[right++];
+		if (subSum == n) cnt++;
+	}
+	cout << cnt; return 0;
+}
+
