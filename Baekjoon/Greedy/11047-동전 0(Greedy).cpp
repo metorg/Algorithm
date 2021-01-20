@@ -11,8 +11,10 @@ using namespace std;
 
 
 int main() {
+	
 	int n, num, target;
 	int cnt = 0;
+	
 	vector<int> coin;
 
 	cin >> n >> target;
@@ -29,10 +31,15 @@ int main() {
 		for (i = 0;i<coin.size();i++)
 			if (coin[i] > target)break;
 		
+		if (i == 0) {
+			cnt += target / coin[0];
+			target =target% coin[0];
 
-		if (i == 0)target -= coin[0];
-		else target -= coin[i-1];
-		cnt++;
+		}
+		else {
+			cnt += target / coin[i - 1];
+			target = target % coin[i - 1];
+		}
 	}
 	cout << cnt;
 
