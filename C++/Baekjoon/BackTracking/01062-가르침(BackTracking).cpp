@@ -1,38 +1,78 @@
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include <queue>
 #include <algorithm>
-#include <string.h>
-#include<stdio.h>
-#include<stack>
-
+#include <iostream>
+#include <string>
+#include <set>
+#include<unordered_map>
 using namespace std;
-int a, b;
-int visit[9] = { 0, };
-vector<int> v;
+unordered_map<int,int> visited;
+set<char> arr[51];
+int n = 0, k = 0, result = 0;
 
-void dfs(int depth) {
-	if (v.size() == b) {
-		for (int i = 0;i < v.size();i++) {
-			cout << v[i] << ' ';
+void dfs(int alpha, int cnt) {
+	if (cnt == (k - 5)) {
+		int cnt = 0;
+		for (int i = 0; i < n; i++) {
+			bool jud = true;
 
+			for (auto it = arr[i].begin(); it != arr[i].end(); it++) {
+				if (visited[*it - 'a'] == 0) {
+					jud = false;
+					break;
+				}
+			}
+			
+			if (jud == true)
+				cnt++;
 		}
-		cout << '\n';
+		 result = max(result,cnt);
+
 		return;
 	}
-	for (int i = 1;i <= a;i++) {
-		if (!visit[i]) {
-			v.push_back(i);
-			visit[i] = 1;
-			dfs(0);
-			v.pop_back();
-			visit[i] = 0;
-		}
 
+	for (int i = alpha; i < 26; i++) {
+
+		if (visited[i] == 0) {
+			visited[i] = 1;
+			dfs(i,cnt + 1);
+			visited[i] = 0; 
+		}
 	}
+
 }
+
 int main() {
-	cin >> a >> b;
-	dfs(0);
+
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	cin >> n >> k;
+	visited['a' - 'a'] = 1;
+	visited['c' - 'a'] = 1;
+	visited['i' - 'a'] = 1;
+	visited['t' - 'a'] = 1;
+	visited['n' - 'a'] = 1;
+
+	for (int i = 0; i < n; i++) {
+		string v;
+		cin >> v;
+		for (int j = 0; j < v.size(); j++) {
+			if (v[j] != 'a' && v[j] != 'c' && v[j] != 'i' && v[j] != 't' && v[j] != 'n') {
+				arr[i].insert(v[j]);
+			}
+		}
+			
+	}
+	
+
+	if (k < 5) {
+		cout << 0 << '\n';
+		return 0;
+	}
+	else if (k == 26) {
+		cout << n << '\n';
+		return 0;
+	}
+	dfs(0,0);
+
+	cout << result << '\n';
 }
